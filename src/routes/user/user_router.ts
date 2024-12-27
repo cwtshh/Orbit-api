@@ -14,6 +14,9 @@ import { comment_post } from '../../services/user/comment_post';
 import { get_user_likes } from '../../services/user/get_user_likes';
 import { get_user_following } from '../../services/user/get_user_following';
 import { unfollow_user } from '../../services/user/unfollow_user';
+import { verify_chat } from '../../services/user/verify_chat';
+import { create_chat } from '../../services/user/create_user';
+import { get_chat } from '../../services/user/get_chat';
 
 const user_router = Router();
 
@@ -41,6 +44,12 @@ user_router.post('/post/comment', comment_post);
 
 // likes
 user_router.get('/likes/:user_id', get_user_likes);
+
+
+//chats
+user_router.post('/chat/verify', verify_chat);
+user_router.post('/chat/create', create_chat);
+user_router.get('/chat/:chat_id', get_chat);
 
 
 export default user_router;

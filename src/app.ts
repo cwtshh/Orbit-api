@@ -4,6 +4,9 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import connect_db from './config/db';
 import router from './routes/router';
+import Message from './models/Message';
+import http from 'http';
+import initSocket from './socket/socket';
 
 dotenv.config();
 
@@ -20,10 +23,12 @@ app.use(cookieParser());
 
 connect_db();
 
+const server = http.createServer(app);
+initSocket(server);
+
 app.use('/', router);
 
-
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
 

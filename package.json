@@ -21,7 +21,8 @@
     "mongoose": "^8.9.2",
     "nodemon": "^3.1.9",
     "react-native": "^0.76.5",
-    "react-native-keychain": "^9.2.2"
+    "react-native-keychain": "^9.2.2",
+    "socket.io": "^4.8.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
