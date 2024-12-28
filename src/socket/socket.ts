@@ -1,7 +1,11 @@
 import socketIo from "socket.io";
 import Chat from "../models/Chat";
+import { Expo } from "expo-server-sdk";
+import User from "../models/User";
 
-let users: any = {};  // Mudamos para um mapa de users mais flexível
+let users: any = {}; 
+let expo = new Expo();
+let userPushTokens: any = {};
 
 const initSocket = (server: Express.Application) => {
     const io = new socketIo.Server(server, {
@@ -14,7 +18,7 @@ const initSocket = (server: Express.Application) => {
     io.on("connection", (socket) => {
         console.log("New connection");
 
-        socket.on("register", (user_id) => {
+        socket.on("register", (user_id, push_token) => {
             // Se o usuário já estiver registrado, desconecte o socket anterior
             if (users[user_id]) {
                 const previousSocket = io.sockets.sockets.get(users[user_id]);
@@ -24,6 +28,7 @@ const initSocket = (server: Express.Application) => {
             }
         
             users[user_id] = socket.id;
+            userPushTokens[user_id] = push_token;
             console.log(`User registered: ${user_id} with socket id: ${socket.id}`);
         });
 
@@ -57,6 +62,43 @@ const initSocket = (server: Express.Application) => {
                     message,
                     sender_id,
                 });
+
+                console.log("verificando token...");
+                if(userPushTokens[reciver_id]) {
+                    console.log("Sending notification to user: ", reciver_id);
+                    const pushToken = userPushTokens[reciver_id];
+
+                    if(Expo.isExpoPushToken(pushToken)) {
+                        const sender_user = await User.findById(sender_id).select('username name');
+                        const push_message = {
+                            to: pushToken,
+                            sound: 'default',
+                            title: 'Nova Mensagem de ' + sender_user?.username,
+                            body: message,
+                            data: { message },
+                            android: {
+                                channelId: 'default',
+                                priority: 'high',
+                                actions: [
+                                    {
+                                        actionId: 'open', // ID da ação
+                                        title: 'Abrir',   // Texto do botão
+                                        isDestructive: false,
+                                        isAuthenticationRequired: false,
+                                    },
+                                ],
+                            },
+                        }
+
+                        try {
+                            await expo.sendPushNotificationsAsync([push_message]);
+                            console.log("Notification sent successfully to user: ", reciver_id);
+                        } catch (err) {
+                            console.log("Failed to send notification to user: ", reciver_id);
+                        }
+                    }
+                }
+                
                 socket.emit("send_message_response", { status: "success", message: "Message sent successfully", data: {
                     chat_id,
                     message,

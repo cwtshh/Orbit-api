@@ -18,6 +18,7 @@ import { verify_chat } from '../../services/user/verify_chat';
 import { create_chat } from '../../services/user/create_user';
 import { get_chat } from '../../services/user/get_chat';
 import { get_user_chats } from '../../services/user/get_user_chats';
+import { register_notification_token } from '../../services/user/register_notification_token';
 
 const user_router = Router();
 
@@ -47,11 +48,14 @@ user_router.post('/post/comment', comment_post);
 user_router.get('/likes/:user_id', get_user_likes);
 
 
-//chats
+// chats
 user_router.post('/chat/verify', verify_chat);
 user_router.post('/chat/create', create_chat);
 user_router.get('/chat/:chat_id', get_chat);
 user_router.get('/chats/:user_id', get_user_chats);
+
+// notifications
+// user_router.post('/notification/register', register_notification_token);
 
 
 export default user_router;
