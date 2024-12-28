@@ -16,7 +16,7 @@ export const create_chat = async(req: Request, res: Response) => {
         return;
     }
 
-    const new_chat = Chat.create({
+    const new_chat = await Chat.create({
         users: users,
     });
     if(!new_chat) {

@@ -17,6 +17,7 @@ import { unfollow_user } from '../../services/user/unfollow_user';
 import { verify_chat } from '../../services/user/verify_chat';
 import { create_chat } from '../../services/user/create_user';
 import { get_chat } from '../../services/user/get_chat';
+import { get_user_chats } from '../../services/user/get_user_chats';
 
 const user_router = Router();
 
@@ -50,6 +51,7 @@ user_router.get('/likes/:user_id', get_user_likes);
 user_router.post('/chat/verify', verify_chat);
 user_router.post('/chat/create', create_chat);
 user_router.get('/chat/:chat_id', get_chat);
+user_router.get('/chats/:user_id', get_user_chats);
 
 
 export default user_router;
