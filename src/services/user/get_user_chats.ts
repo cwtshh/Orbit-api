@@ -16,14 +16,19 @@ export const get_user_chats = async(req: Request, res: Response) => {
         return;
     }
 
-    const chats = await Chat.find({ users: user_id }).populate({
+    const chats = await Chat.find({ users: user_id })
+    .populate({
         path: 'users',
         select: 'id username name email',
-    });
+    })
+    .sort({ 'messages.createdAt': -1 }) // Ordena pela data da última mensagem (mais recente primeiro)
+    .limit(10); // Limita a quantidade de chats retornados, se necessário.
+
     if(!chats) {
         res.status(404).json({ message: 'Chats not found' });
         return;
     }
+      
 
     res.status(200).json(chats);
 };
