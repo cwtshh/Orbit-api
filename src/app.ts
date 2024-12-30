@@ -7,6 +7,7 @@ import router from './routes/router';
 import Message from './models/Message';
 import http from 'http';
 import initSocket from './socket/socket';
+import fs from 'fs';
 
 dotenv.config();
 
@@ -22,6 +23,11 @@ app.use(cors({
 app.use(cookieParser());
 
 connect_db();
+
+if(!fs.existsSync('/uploads')) {
+    console.log('Creating uploads directory');
+    fs.mkdirSync('/uploads');
+}
 
 const server = http.createServer(app);
 initSocket(server);
