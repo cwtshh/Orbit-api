@@ -11,6 +11,10 @@ const PostSchema = new Schema({
         ref: 'User',
         required: true,
     },
+    photo: {
+        type: String,
+        default: null,
+    },
     likes: {
         type: Number,
         default: 0,
