@@ -8,7 +8,7 @@ export const get_user_likes = async(req: Request, res: Response) => {
         path: 'likes',
         populate: {
             path: 'user',
-            select: 'username name email'
+            select: 'username name email profile_photo_path',
         }
     });
     if(!user) {

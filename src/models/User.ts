@@ -20,6 +20,10 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
+    profile_photo_path: {
+        type: String,
+        default: null,
+    },
     posts: [{
         type: Schema.Types.ObjectId,
         ref: 'Post',

@@ -5,11 +5,14 @@ import Post from '../../models/Post';
 export const get_post_by_id = async (req: Request, res: Response) => {
     const { post_id } = req.params;
 
-    const post = await Post.findById(post_id).populate('user', '-password').populate({
+    const post = await Post.findById(post_id).populate({
+        path: 'user',
+        select: 'name username email profile_photo_path',
+    }).populate({
         path: 'comments',
         populate: {
             path: 'user',
-            select: '-password'
+            select: 'name username email profile_photo_path',
         }
     }).exec();
     if (!post) {
