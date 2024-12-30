@@ -6,9 +6,12 @@ export const get_user_posts = async(req: Request, res: Response) => {
 
     const user = await User.findById(id).populate({
         path: 'posts',
+        options: {
+            sort: { createdAt: -1 },
+        },
         populate: {
-          path: 'user', // Popula o campo 'user' dentro de cada post
-          select: 'username name email', // Retorna apenas os campos necessários
+          path: 'user', 
+          select: 'username name email', 
         },
     });
     

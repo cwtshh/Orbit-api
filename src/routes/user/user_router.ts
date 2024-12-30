@@ -19,6 +19,9 @@ import { create_chat } from '../../services/user/create_user';
 import { get_chat } from '../../services/user/get_chat';
 import { get_user_chats } from '../../services/user/get_user_chats';
 import { register_notification_token } from '../../services/user/register_notification_token';
+import { create_post_w_photo } from '../../services/user/create_post_w_photo';
+import { upload } from '../../middlewares/multer';
+import { get_photo } from '../../services/user/get_photo';
 
 const user_router = Router();
 
@@ -39,6 +42,8 @@ user_router.patch('/post/like', like_post);
 user_router.get('/posts/user/:id', get_user_posts);
 user_router.get('/posts/followers/:user_id', get_follower_posts);
 user_router.get('/post/:post_id', get_post_by_id);
+user_router.post('/post/photo', upload.single('file'), create_post_w_photo);
+user_router.get('/photo/:user_id/:post_id', get_photo)
 
 
 // comments
