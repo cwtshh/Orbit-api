@@ -17,7 +17,5 @@ export const get_user_posts = async(req: Request, res: Response) => {
         return;
     }
 
-    console.log(user);
-
     res.status(200).json(user.posts);
 }
