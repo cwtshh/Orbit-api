@@ -24,10 +24,7 @@ app.use(cookieParser());
 
 connect_db();
 
-if(!fs.existsSync('/uploads')) {
-    console.log('Creating uploads directory');
-    fs.mkdirSync('/uploads');
-}
+
 
 const server = http.createServer(app);
 initSocket(server);

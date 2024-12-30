@@ -6,20 +6,25 @@ import fs from 'fs';
 // Configuração do armazenamento
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        // Pasta onde os arquivos serão salvos
-        if(!fs.existsSync(path.join(__dirname, `../uploads/profile_photos/${req.body.user_id}`))) {
-            fs.mkdirSync(path.join(__dirname, `../uploads/profile_photos/${req.body.user_id}`));
+        const uploadPath = path.join(__dirname, `../uploads/profile_photos/${req.body.user_id}`);
+        
+        // Criar diretório se não existir (incluindo diretórios pais)
+        if (!fs.existsSync(uploadPath)) {
+            fs.mkdirSync(uploadPath, { recursive: true });
         }
+        
         console.log('Arquivo recebido:', file.originalname);
-        cb(null, path.join(__dirname, `../uploads/profile_photos/${req.body.user_id}`));
+        cb(null, uploadPath);
     },
     filename: (req, file, cb) => {
         console.log('Salvando arquivo:', file.originalname);
-        // Definindo o nome do arquivo com timestamp para evitar sobreposição
-        if(fs.existsSync(path.join(__dirname, `../uploads/profile_photos/${req.body.user_id}/${file.originalname}`)) === true) {
-            // deletar
-            fs.unlinkSync(path.join(__dirname, `../uploads/profile_photos/${req.body.user_id}/${file.originalname}`));
+        const filePath = path.join(__dirname, `../uploads/profile_photos/${req.body.user_id}/${file.originalname}`);
+
+        // Verificar se o arquivo já existe e deletar, se necessário
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
         }
+
         cb(null, `${file.originalname}`);
     }
 });
