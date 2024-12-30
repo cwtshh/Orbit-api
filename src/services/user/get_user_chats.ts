@@ -19,7 +19,7 @@ export const get_user_chats = async(req: Request, res: Response) => {
     const chats = await Chat.find({ users: user_id })
     .populate({
         path: 'users',
-        select: 'id username name email',
+        select: 'id username name email profile_photo_path',
     })
     .sort({ 'messages.createdAt': -1 }) // Ordena pela data da última mensagem (mais recente primeiro)
     .limit(10); // Limita a quantidade de chats retornados, se necessário.

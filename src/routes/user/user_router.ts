@@ -22,6 +22,9 @@ import { register_notification_token } from '../../services/user/register_notifi
 import { create_post_w_photo } from '../../services/user/create_post_w_photo';
 import { upload } from '../../middlewares/multer';
 import { get_photo } from '../../services/user/get_photo';
+import { upload_perfil } from '../../middlewares/multer_profile';
+import { edit_profile } from '../../services/user/edit_profile';
+import { get_profile_photo } from '../../services/user/get_profile_photo';
 
 const user_router = Router();
 
@@ -44,6 +47,7 @@ user_router.get('/posts/followers/:user_id', get_follower_posts);
 user_router.get('/post/:post_id', get_post_by_id);
 user_router.post('/post/photo', upload.single('file'), create_post_w_photo);
 user_router.get('/photo/:user_id/:post_id', get_photo)
+user_router.get('/photo/:user_id', get_profile_photo);
 
 
 // comments
@@ -61,6 +65,9 @@ user_router.get('/chats/:user_id', get_user_chats);
 
 // notifications
 // user_router.post('/notification/register', register_notification_token);
+
+// editar perfil
+user_router.patch('/edit', upload_perfil.single('file'), edit_profile);
 
 
 export default user_router;

@@ -34,7 +34,8 @@ export const login_user = async(req: Request, res: Response) => {
         id: user._id,
         username: user.username,
         name: user.name,
-        email: user.email
+        email: user.email,
+        profile_photo_path: user.profile_photo_path
     } });
 
 }

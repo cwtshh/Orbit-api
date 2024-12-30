@@ -4,7 +4,7 @@ import Post from "../../models/Post";
 export const get_posts = async(req: Request, res: Response) =>  {
     const posts = await Post.find().populate({
         path: 'user',
-        select: 'name email username id'
+        select: 'name email username id profile_photo_path'
     });
     
     res.status(200).json({

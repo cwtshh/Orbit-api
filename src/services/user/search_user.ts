@@ -14,7 +14,7 @@ export const search_user = async(req: Request, res: Response) => {
             { name: { $regex: search_text, $options: 'i' } },
             { username: { $regex: search_text, $options: 'i' } }
         ]
-    }).select('name username email');
+    }).select('name username email profile_photo_path');
 
     if (!user) {
         res.status(404).json({ error: 'User not found' });

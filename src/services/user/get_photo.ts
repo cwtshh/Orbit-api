@@ -6,6 +6,11 @@ import fs from 'fs';
 export const get_photo = async (req: Request, res: Response) => {
     const { user_id, post_id } = req.params;
 
+    if(!user_id || !post_id) {
+        res.status(400).json({ message: 'Missing user_id or post_id' });
+        return;
+    }
+
     if(!await User.findById(user_id)) {
         res.status(404).json({ message: 'User not found' });
         return;

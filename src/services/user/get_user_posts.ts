@@ -11,7 +11,7 @@ export const get_user_posts = async(req: Request, res: Response) => {
         },
         populate: {
           path: 'user', 
-          select: 'username name email', 
+          select: 'username name email profile_photo_path', 
         },
     });
     
